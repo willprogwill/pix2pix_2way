@@ -23,7 +23,7 @@ import time
 from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
-from make_video import makeVideo
+#from make_video import makeVideo
 
 def labelshow( img, name, label ):
     plt.clf()
@@ -260,8 +260,8 @@ def train():
         f.write(f"Execution time: {tim}\n")
 
     #make_video
-    makeVideo("./frame/"+frame_train_dir, train, nEpochs)
-    makeVideo("./frame/"+frame_test_dir, test, nEpochs)
+    # makeVideo("./frame/"+frame_train_dir, train, nEpochs)
+    # makeVideo("./frame/"+frame_test_dir, test, nEpochs)
 
     print( 'finished' )
 
@@ -324,6 +324,7 @@ if __name__ == "__main__":
         os.mkdir( "./frame")
 
     if not os.path.exists( "./video" ):
+        print("Make directory ./video")
         os.mkdir( "./video" )
 
     train()
