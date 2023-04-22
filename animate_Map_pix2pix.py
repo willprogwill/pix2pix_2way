@@ -70,6 +70,10 @@ def train():
     print( ' nEpochs = ', nEpochs )
     print( ' device = ', device )
 
+    #logフォルダの作成
+    if not os.path.exists( "./log/epoch"+ str( nEpochs ).zfill( 5 ) ):
+        os.mkdir( "./log/epoch"+ str( nEpochs ).zfill( 5 ))
+
     # Make directory
     # frame/
     #  ├ Map_train_p2p_(nEpochs)/
