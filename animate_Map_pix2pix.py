@@ -256,7 +256,7 @@ def train():
     print(f"Execution time: {tim}")
 
     with open("./log/epoch"+ str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
-        f.write(f"Execution time: {tim}")
+        f.write(f"Execution time: {tim}\n")
 
     print( 'finished' )
 
