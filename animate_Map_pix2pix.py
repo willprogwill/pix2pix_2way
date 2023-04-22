@@ -71,11 +71,18 @@ def train():
     print( ' nEpochs = ', nEpochs )
     print( ' device = ', device )
 
-    #logフォルダの作成
+    # Make directory
+
+    # logフォルダの作成
+    # log/
+    #  └ epoch(nEpochs)
+    #    ├ ExecutionTime.txt
+    #           :
+
     if not os.path.exists( "./log/epoch"+ str( nEpochs ).zfill( 5 ) ):
         os.mkdir( "./log/epoch"+ str( nEpochs ).zfill( 5 ))
 
-    # Make directory
+    # frameフォルダの作成
     # frame/
     #  ├ Map_train_p2p_(nEpochs)/
     #  | ├ snap00001.png
@@ -259,7 +266,7 @@ def train():
     with open("./log/epoch"+ str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
         f.write(f"Execution time: {tim}\n")
 
-    #make_video
+    # Make_video
     # makeVideo("./frame/"+frame_train_dir, train, nEpochs)
     # makeVideo("./frame/"+frame_test_dir, test, nEpochs)
 

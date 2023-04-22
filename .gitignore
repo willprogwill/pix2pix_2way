@@ -6,3 +6,4 @@ log/
 test/
 Map_frame_pix2pix_*/
 video/
+*.zip

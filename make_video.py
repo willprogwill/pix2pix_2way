@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     dir_name = input('What is the nume of dir? -> ')
     epoch_num = input('What is the number of epoch? -> ')
-    file_ty = input('What is the file type? -> ')
+    file_ty = input('What is the file type? (train or test) -> ')
 
     makeVideo(dir_name, epoch_num, file_ty)
 
