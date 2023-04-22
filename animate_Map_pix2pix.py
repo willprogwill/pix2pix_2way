@@ -23,6 +23,7 @@ import time
 from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
+from make_video import makeVideo
 
 def labelshow( img, name, label ):
     plt.clf()
@@ -258,6 +259,10 @@ def train():
     with open("./log/epoch"+ str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
         f.write(f"Execution time: {tim}\n")
 
+    #make_video
+    makeVideo("./frame/"+frame_train_dir, train, nEpochs)
+    makeVideo("./frame/"+frame_test_dir, test, nEpochs)
+
     print( 'finished' )
 
     ####### Save log #######
@@ -309,7 +314,7 @@ def train():
     # torch.save( model_D.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_D )
 
 if __name__ == "__main__":
-    #logファイルとframeファイルの確認
+    #ファイルの確認
     if not os.path.exists( "./log"):
         print("Make directory ./log")
         os.mkdir( "./log")
@@ -317,5 +322,8 @@ if __name__ == "__main__":
     if not os.path.exists( "./frame"):
         print("Make directory ./frame")
         os.mkdir( "./frame")
+
+    if not os.path.exists( "./video" ):
+        os.mkdir( "./video" )
 
     train()
