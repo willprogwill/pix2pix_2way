@@ -132,7 +132,7 @@ def train():
     print( 'size of test_dataset = ', len(test_dataset) )
 
     indices = np.arange( len( train_dataset ) )
-    train_size = int(0.7 * len(full_dataset))
+    train_size = int(0.7 * len(train_dataset))
     frameset = torch.utils.data.Subset( train_dataset, indices[train_size:train_size+16] )
 
     batch_size = 32
