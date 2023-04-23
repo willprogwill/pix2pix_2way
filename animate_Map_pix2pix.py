@@ -23,7 +23,7 @@ import time
 from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
-#from make_video import makeVideo
+from make_video import makeVideo
 
 def labelshow( img, name, label ):
     plt.clf()
@@ -79,25 +79,35 @@ def train():
     #    ├ ExecutionTime.txt
     #           :
 
-    if not os.path.exists( "./log/epoch"+ str( nEpochs ).zfill( 5 ) ):
-        os.mkdir( "./log/epoch"+ str( nEpochs ).zfill( 5 ))
+    log_save = "./log/epoch"
+
+    if not os.path.exists( log_save+ str( nEpochs ).zfill( 5 ) ):
+        os.mkdir( log_save+ str( nEpochs ).zfill( 5 ))
 
     # frameフォルダの作成
     # frame/
-    #  ├ Map_train_p2p_(nEpochs)/
-    #  | ├ snap00001.png
-    #  |       :
-    #  └ Map_test_p2p_(nEpochs)/
-    #    ├ snap00001.png
-    #          :
+    # ├ epoch_( nEpochs )
+    # : ├ Map_train_p2p_(nEpochs)/
+    #   | ├ snap00001.png
+    #   |       :
+    #   └ Map_test_p2p_(nEpochs)/
+    #     ├ snap00001.png
+    #           :
+
+    frame_save = "./frame/"+frame_train_dir
+
+    frame_epoch_dir = "epoch_" + str( nEpochs ).zfill( 5 ) +"/"
+    if not os.path.exists( frame_save ):
+        os.mkdir( frame_save )
 
     frame_train_dir = "Map_train_p2p_" + str( nEpochs ).zfill( 5 )
-    if not os.path.exists( "./frame/"+frame_train_dir ):
-        os.mkdir( "./frame/"+frame_train_dir )
+    if not os.path.exists( frame_save+frame_train_dir ):
+        os.mkdir( frame_save+frame_train_dir )
 
     frame_test_dir = "Map_test_p2p_" + str( nEpochs ).zfill( 5 )
-    if not os.path.exists( "./frame/"+frame_test_dir ):
-        os.mkdir( "./frame/"+frame_test_dir )
+    if not os.path.exists( frame_save+frame_test_dir ):
+        os.mkdir( frame_save+frame_test_dir )
+
 
     # Set Models
     model_G, model_D = UNetGenerator(), MyDiscriminator()
@@ -238,7 +248,7 @@ def train():
 
                 validated = model_G( frameI )
                 print( ' animation frame = ', i+1 )
-                snapname = f"./frame/"+frame_train_dir+"/"+"snap" + str( i+1 ).zfill( 5 ) + ".png"
+                snapname = frame_save+frame_train_dir+"/snap" + str( i+1 ).zfill( 5 ) + ".png"
                 labelname = "epoch=" + str( i+1 ).zfill( 5 )
                 labelshow( validated.detach().reshape( -1, 1, inSize, inSize ).cpu(),
                            snapname, labelname )
@@ -250,7 +260,7 @@ def train():
 
                 validated = model_G( frameI )
                 print( ' animation frame = ', i+1 )
-                snapname = f"./frame/"+frame_test_dir+"/"+"snap" + str( i+1 ).zfill( 5 ) + ".png"
+                snapname = frame_save+frame_test_dir+"/snap" + str( i+1 ).zfill( 5 ) + ".png"
                 labelname = "epoch=" + str( i+1 ).zfill( 5 )
                 labelshow( validated.detach().reshape( -1, 1, inSize, inSize ).cpu(),
                            snapname, labelname )
@@ -263,12 +273,12 @@ def train():
 
     print(f"Execution time: {tim}")
 
-    with open("./log/epoch"+ str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
+    with open(log_save + str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
         f.write(f"Execution time: {tim}\n")
 
     # Make_video
-    # makeVideo("./frame/"+frame_train_dir, train, nEpochs)
-    # makeVideo("./frame/"+frame_test_dir, test, nEpochs)
+    makeVideo(frame_save+frame_train_dir, train, nEpochs)
+    makeVideo(frame_save+frame_test_dir, test, nEpochs)
 
     print( 'finished' )
 
