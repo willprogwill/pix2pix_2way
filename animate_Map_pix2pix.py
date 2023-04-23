@@ -94,9 +94,9 @@ def train():
     #     ├ snap00001.png
     #           :
 
-    frame_save = "./frame/"+frame_train_dir
-
     frame_epoch_dir = "epoch_" + str( nEpochs ).zfill( 5 ) +"/"
+    frame_save = "./frame/"+frame_epoch_dir
+
     if not os.path.exists( frame_save ):
         os.mkdir( frame_save )
 
