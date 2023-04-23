@@ -277,8 +277,8 @@ def train():
         f.write(f"Execution time: {tim}\n")
 
     # Make_video
-    makeVideo(frame_save+frame_train_dir, nEpochs, train)
-    makeVideo(frame_save+frame_test_dir, nEpochs, test)
+    makeVideo(frame_save+frame_train_dir, nEpochs, 'train')
+    makeVideo(frame_save+frame_test_dir, nEpochs, 'test')
 
     print( 'finished' )
 
