@@ -18,7 +18,7 @@ def makeVideo(dir, epoch, file_type = 'train'):
         size = (width, height)
         img_array.append(img)
 
-    name = './video/anime_'+ file_type + '_' + str( epoch ).zfill( 5 ) +'.mp4'
+    name = './video/anime_'+ str(file_type) + '_' + str( epoch ).zfill( 5 ) +'.mp4'
 
     #Make 30sec video
     fps = int(epoch)/30
