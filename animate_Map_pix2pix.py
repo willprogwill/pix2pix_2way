@@ -60,7 +60,7 @@ def train():
     inSize = 256
 
     # モデル
-    device = torch.device( 'cuda:0' if torch.cuda.is_available() else 'cpu' )
+    device = torch.device( 'cuda' if torch.cuda.is_available() else 'cpu' )
     torch.backends.cudnn.benchmark = True
 
     nEpochs = 1
@@ -75,18 +75,18 @@ def train():
 
     # logフォルダの作成
     # log/
-    #  └ epoch(nEpochs)
+    #  └ epoch(nEpochs)/
     #    ├ ExecutionTime.txt
     #           :
 
-    log_save = "./log/epoch"
+    log_save = "./log/epoch"+ str( nEpochs ).zfill( 5 )
 
-    if not os.path.exists( log_save+ str( nEpochs ).zfill( 5 ) ):
-        os.mkdir( log_save+ str( nEpochs ).zfill( 5 ))
+    if not os.path.exists( log_save ):
+        os.mkdir( log_save )
 
     # frameフォルダの作成
     # frame/
-    # ├ epoch_( nEpochs )
+    # ├ epoch_( nEpochs )/
     # : ├ Map_train_p2p_(nEpochs)/
     #   | ├ snap00001.png
     #   |       :
@@ -94,8 +94,7 @@ def train():
     #     ├ snap00001.png
     #           :
 
-    frame_epoch_dir = "epoch_" + str( nEpochs ).zfill( 5 ) +"/"
-    frame_save = "./frame/"+frame_epoch_dir
+    frame_save = "./frame/"+"epoch_" + str( nEpochs ).zfill( 5 ) +"/"
 
     if not os.path.exists( frame_save ):
         os.mkdir( frame_save )
@@ -138,10 +137,10 @@ def train():
     result["log_loss_G_mae"] = []
     result["log_loss_D"] = []
 
-    # 訓練
+    # 画像処理
     transform = transforms.Compose( [transforms.ToTensor(),
                                      transforms.Normalize( (0.5,), (0.5,) ) ] )
-    #dataset
+    # dataset
     dataset_dir = "./half"
     testset_dir = "./test"
     print(f"dataset_dir: {dataset_dir}")
@@ -157,6 +156,8 @@ def train():
     train_size = int(0.7 * len(train_dataset))
     frameset = torch.utils.data.Subset( train_dataset, indices[train_size:train_size+16] )
 
+    # GPUを二つ使用するときはバッチ数を二倍にすると処理が速くなるらしい（未実装）
+    # 参考 https://aru47.hatenablog.com/entry/2020/11/06/225052
     batch_size = 32
 
     trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True )
@@ -166,9 +167,11 @@ def train():
     print( 'Number of iteration for each epoch = ', len( trainloader ) )
 
     nBatches = len( trainloader )
-    print( 'in train' )
 
     log_loss_G_sum, log_loss_G_bce, log_loss_G_mae, log_loss_D = [], [], [], []
+
+    # 訓練
+    print( 'in train' )
     for i in range(nEpochs):
 
         for counter, (ori_img, ans_img) in enumerate( trainloader ):
@@ -208,7 +211,7 @@ def train():
             loss_G_sum.backward()
             params_G.step()
 
-            # Discriminatoの訓練
+            # Discriminatorの訓練
             # 本物のカラー画像を本物と識別できるようにロスを計算
             real_out = model_D(torch.cat([ans_img, ori_img], dim=1))
             loss_D_real = bce_loss(real_out, ones[:batch_len])
@@ -247,7 +250,7 @@ def train():
                 frameI = frameI.to( device )
 
                 validated = model_G( frameI )
-                print( ' animation frame = ', i+1 )
+                # print( ' animation frame = ', i+1 )
                 snapname = frame_save+frame_train_dir+"/snap" + str( i+1 ).zfill( 5 ) + ".png"
                 labelname = "epoch=" + str( i+1 ).zfill( 5 )
                 labelshow( validated.detach().reshape( -1, 1, inSize, inSize ).cpu(),
@@ -259,7 +262,7 @@ def train():
                 frameI = frameI.to( device )
 
                 validated = model_G( frameI )
-                print( ' animation frame = ', i+1 )
+                # print( ' animation frame = ', i+1 )
                 snapname = frame_save+frame_test_dir+"/snap" + str( i+1 ).zfill( 5 ) + ".png"
                 labelname = "epoch=" + str( i+1 ).zfill( 5 )
                 labelshow( validated.detach().reshape( -1, 1, inSize, inSize ).cpu(),
@@ -271,9 +274,9 @@ def train():
     # 経過時間（秒）
     tim = time_end - time_sta
 
+    # 実行時間の記録
     print(f"Execution time: {tim}")
-
-    with open(log_save + str( nEpochs ).zfill( 5 ) +"/ExecutionTime.txt", "w") as f:
+    with open(log_save +"/ExecutionTime.txt", "w") as f:
         f.write(f"Execution time: {tim}\n")
 
     # Make_video
@@ -323,11 +326,13 @@ def train():
     #model_Gの保存
     # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_model_G )
+    # model_G = model.to('cpu')
     # torch.save( model_G.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_G )
 
     #model_Dの保存
     # filename_model_D = "Map_model_D_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_model_D )
+    # model_D = model.to('cpu')
     # torch.save( model_D.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_D )
 
 if __name__ == "__main__":
@@ -344,4 +349,5 @@ if __name__ == "__main__":
         print("Make directory ./video")
         os.mkdir( "./video" )
 
+    # training
     train()
