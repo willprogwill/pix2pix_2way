@@ -248,7 +248,7 @@ def train():
 
         # animation frame recording
         with torch.no_grad():
-            for fid, ( frameI, frameO ) in enumerate( frameloader ):
+            for fid, ( frameI, frameO ) in enumerate( siml_loader ):
 
                 # save learning results
                 frameI = frameI.to( device )
