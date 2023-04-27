@@ -142,27 +142,31 @@ def train():
                                      transforms.Normalize( (0.5,), (0.5,) ) ] )
     # dataset
     dataset_dir = "./half"
+    simlset_dir = "./simulate"
     testset_dir = "./test"
     print(f"dataset_dir: {dataset_dir}")
     print(f"testset_dir: {testset_dir}")
 
     train_dataset = PairImges(dataset_dir, transform=transform)
+    siml_dataset = PairImages(simlset_dir, transform=transform)
     test_dataset = PairImges(testset_dir, transform=transform)
 
     print( 'size of train_dataset = ', len(train_dataset) )
     print( 'size of test_dataset = ', len(test_dataset) )
 
-    indices = np.arange( len( train_dataset ) )
-    train_size = int(0.7 * len(train_dataset))
-    frameset = torch.utils.data.Subset( train_dataset, indices[train_size:train_size+16] )
+    # frame Loader 用
+    # indices = np.arange( len( train_dataset ) )
+    # train_size = int(0.7 * len(train_dataset))
+    # frameset = torch.utils.data.Subset( train_dataset, indices[train_size:train_size+16] )
 
     # GPUを二つ使用するときはバッチ数を二倍にすると処理が速くなるらしい（未実装）
     # 参考 https://aru47.hatenablog.com/entry/2020/11/06/225052
     batch_size = 32
 
     trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True )
-    frameloader = DataLoader(frameset, batch_size=16, shuffle=False )
+    siml_loader = DataLoader( siml_dataset, batch_size=16, shuffle=False )
     testloader = DataLoader(test_dataset, batch_size=16, shuffle=False )
+    #frameloader = DataLoader(frameset, batch_size=16, shuffle=False )
 
     print( 'Number of iteration for each epoch = ', len( trainloader ) )
 
