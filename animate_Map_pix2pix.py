@@ -148,7 +148,7 @@ def train():
     print(f"testset_dir: {testset_dir}")
 
     train_dataset = PairImges(dataset_dir, transform=transform)
-    siml_dataset = PairImages(simlset_dir, transform=transform)
+    siml_dataset = PairImges(simlset_dir, transform=transform)
     test_dataset = PairImges(testset_dir, transform=transform)
 
     print( 'size of train_dataset = ', len(train_dataset) )
