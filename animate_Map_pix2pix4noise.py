@@ -18,6 +18,8 @@ import glob
 import os
 from os import listdir
 
+import shutil
+
 import time
 
 from UNetGenerator import UNetGenerator
