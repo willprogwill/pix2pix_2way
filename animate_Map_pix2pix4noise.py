@@ -364,7 +364,7 @@ def train():
     plt.title('Log_Loss_Graph')  # グラフタイトルの設定
     plt.legend()  # 凡例の表示
 
-    plt.savefig(output_path)  # グラフを画像として保存
+    plt.savefig(log_save+'/Loss_Gragh.png')  # グラフを画像として保存
 
     #model_Gの保存
     # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
