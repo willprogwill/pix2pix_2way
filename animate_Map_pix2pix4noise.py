@@ -354,7 +354,6 @@ def train():
     #        os.mkdir("./"+log_file_name+"/models")
 
     plt.clf()
-    plt.figure()
     x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
 
     plt.plot(x, log_loss_G_sum, label='log_loss_G_sum')  # データ1をプロット
