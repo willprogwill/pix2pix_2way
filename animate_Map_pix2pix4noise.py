@@ -339,7 +339,7 @@ def train():
 
     plt.plot(x, log_loss_G_sum)  # データ1をプロット
 
-    plt.xlabel('Epochs')  # X軸ラベルの設定
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
     plt.ylabel('Loss')  # Y軸ラベルの設定
     plt.title('Log_Loss_Graph')  # グラフタイトルの設定
 
@@ -359,7 +359,7 @@ def train():
 
     plt.plot(x, log_loss_D)  # データ2をプロット
 
-    plt.xlabel('Epochs')  # X軸ラベルの設定
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
     plt.ylabel('Loss')  # Y軸ラベルの設定
     plt.title('Log_Loss_Graph')  # グラフタイトルの設定
 
@@ -379,10 +379,10 @@ def train():
     plt.plot(x, log_loss_G_sum, label1='log_loss_G_sum')  # データ1をプロット
     plt.plot(x, log_loss_D, label2='log_loss_D')  # データ2をプロット
 
-    plt.xlabel('Epochs')  # X軸ラベルの設定
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
     plt.ylabel('Loss')  # Y軸ラベルの設定
     plt.title('Log_Loss_Graph')  # グラフタイトルの設定
-    plt.legend([label1, label2])  # 凡例の表示
+    plt.legend(['log_loss_G_sum', 'log_loss_D'])  # 凡例の表示
 
     plt.savefig(log_save+'/Loss_Gragh.png')  # グラフを画像として保存
 
