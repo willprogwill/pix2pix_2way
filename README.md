@@ -1,6 +1,6 @@
-make_noise.py
-ガウシアンノイズをフォルダにかけるプログラム。
-__main__ 実行時には引数に　`processing_ratio`,`mu`,`sigma`　をとることができる。
+## make_noise.py
+ガウシアンノイズをフォルダにかけるプログラム。__
+__main__ 実行時には引数に　`processing_ratio`, `mu`, `sigma`　をとることができる。
 
 * 変数
   * processing_ratio　-　画像フォルダのどれくらいの割合に処理を行うかの比率(例　0.25)
