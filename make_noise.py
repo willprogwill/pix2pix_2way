@@ -55,17 +55,19 @@ if __name__ == "__main__":
 
     args = sys.argv
     if len( args ) == 4:
-        processing_ratio = int(args[ 1 ] )
-        mu = int(args[ 2 ] )
-        sigma = int(args[ 3 ] )
+        processing_ratio = float(args[ 1 ])
+        mu = int(args[ 2 ])
+        sigma = int(args[ 3 ])
 
     #noiseフォルダ作成
-    cp_directory = image_directory+f'_nz{processing_ratio*100}%_sig'+str(sigma)
+    cp_directory = image_directory+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
     if not os.path.exists( cp_directory ):
         shutil.copytree(image_directory, cp_directory)
         image_directory = cp_directory+'/'
 
         process_images(image_directory, processing_ratio)
 
-        cp_dir = list_files(image_directory)
-        print(len(cp_dir))
+        print(f'Create {cp_directory} directory.')
+
+        # cp_dir = list_files(image_directory)
+        # print(len(cp_dir))
