@@ -3,7 +3,7 @@
 __main__ 実行時には引数に　`processing_ratio`, `mu`, `sigma`をとることができる。
 
 * 変数
-  * processing_ratio - 画像フォルダのどれくらいの割合に処理を行うかの比率(例　0.25)
+  * processing_ratio - 画像フォルダのどれくらいの割合に処理を行うかの比率(例　0.2)
   * mu - ガウシアン関数におけるμ
   * sigma - ガウシアン関数におけるσ
 

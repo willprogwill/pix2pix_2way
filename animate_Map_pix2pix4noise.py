@@ -24,6 +24,7 @@ from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
 from make_video import makeVideo
+from make_noise import process_images
 
 def labelshow( img, name, label ):
     plt.clf()
@@ -144,6 +145,35 @@ def train():
     dataset_dir = "./half"
     simlset_dir = "./simulate"
     testset_dir = "./test"
+
+    #ノイズをtrainとsimlsetに付加
+    np.random.seed(0)
+    processing_ratio = 0.2  # 10%の画像を処理する
+    mu = 0
+    sigma = 100
+
+    # Make train noise
+    cp_dataset = dataset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
+    if not os.path.exists( cp_dataset ):
+        shutil.copytree(dataset_dir, cp_dataset)
+        print(f'Create {cp_dataset} directory.')
+
+        # noise付加
+        process_images(dataset_dir, processing_ratio)
+
+        dataset_dir = cp_dataset+'/'
+
+    # Make simlset noise
+    cp_simlset = simlset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
+    if not os.path.exists( cp_simlset ):
+        shutil.copytree(simlset_dir, cp_simlset)
+        print(f'Create {cp_directory} directory.')
+
+        # noise付加
+        process_images(simlset_dir, processing_ratio)
+
+        simlset_dir = cp_simlset+'/'
+
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")
     print(f"testset_dir: {testset_dir}")
@@ -310,6 +340,15 @@ def train():
     # filename_loss_G_sum = "Map_loss_G_sum_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_loss_G_sum )
     # torch.save( log_loss_G_sum, f"./"+log_file_name+f"/losses/"+filename_loss_G_sum )
+    x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_G_sum)  # リストのデータをプロット
+
+    plt.xlabel('Epochs')  # X軸ラベルの設定
+    plt.ylabel('loss_G_sum')  # Y軸ラベルの設定
+    plt.title('log_loss_G_sum')  # グラフタイトルの設定
+
+    plt.savefig(log_save+f'/loss_G_sum_gragh.png')  # グラフを画像として保存
 
     # #loss_G_bceの保存
     # filename_loss_G_bce = "Map_loss_G_bce_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
@@ -328,6 +367,15 @@ def train():
 
     # if not os.path.exists("./"+log_file_name+"/models"):
     #        os.mkdir("./"+log_file_name+"/models")
+    x = list(range(len(log_loss_D)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_D)  # リストのデータをプロット
+
+    plt.xlabel('Epochs')  # X軸ラベルの設定
+    plt.ylabel('loss_D')  # Y軸ラベルの設定
+    plt.title('log_loss_D')  # グラフタイトルの設定
+
+    plt.savefig(log_save+f'/log_loss_D_gragh.png')  # グラフを画像として保存
 
     #model_Gの保存
     # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
