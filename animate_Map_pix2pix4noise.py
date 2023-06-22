@@ -24,7 +24,6 @@ from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
 from make_video import makeVideo
-from make_noise
 
 def labelshow( img, name, label ):
     plt.clf()
