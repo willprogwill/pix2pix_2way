@@ -160,10 +160,12 @@ def train():
         shutil.copytree(dataset_dir, cp_dataset)
         print(f'Create {cp_dataset} directory.')
 
+        dataset_dir = cp_dataset+'/'
+
         # noise付加
         process_images(dataset_dir, processing_ratio)
 
-        dataset_dir = cp_dataset+'/'
+    dataset_dir = cp_dataset+'/'
 
     # Make simlset noise
     cp_simlset = simlset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
@@ -171,10 +173,12 @@ def train():
         shutil.copytree(simlset_dir, cp_simlset)
         print(f'Create {cp_simlset} directory.')
 
+        simlset_dir = cp_simlset+'/'
+
         # noise付加
         process_images(simlset_dir, processing_ratio)
 
-        simlset_dir = cp_simlset+'/'
+    simlset_dir = cp_simlset+'/'
 
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")
