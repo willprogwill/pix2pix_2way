@@ -65,7 +65,7 @@ if __name__ == "__main__":
         shutil.copytree(image_directory, cp_directory)
         image_directory = cp_directory+'/'
 
-        process_images(image_directory, processing_ratio)
+        process_images(image_directory, processing_ratio, mu, sigma)
 
         print(f'Create {cp_directory} directory.')
 

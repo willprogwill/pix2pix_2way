@@ -145,7 +145,7 @@ def train():
                                      transforms.Normalize( (0.5,), (0.5,) ) ] )
     # dataset
     dataset_dir = "./half"
-    simlset_dir = "./simulate"
+    simlset_dir = "./simulate_nz"
     testset_dir = "./test"
 
     #ノイズをtrainとsimlsetに付加
@@ -168,27 +168,12 @@ def train():
 
     dataset_dir = cp_dataset+'/'
 
-    # Make simlset noise
-    cp_simlset = simlset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
-
-    if not os.path.exists( cp_simlset ):
-        shutil.copytree(simlset_dir, cp_simlset)
-        print(f'Create {cp_simlset} directory.')
-
-        simlset_dir = cp_simlset+'/'
-
-        # noise付加
-        process_images(simlset_dir, processing_ratio, mu, sigma)
-
-    simlset_dir = cp_simlset+'/'
-
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")
     print(f"testset_dir: {testset_dir}")
 
     train_dataset = PairImges(dataset_dir, transform=transform)
     siml_dataset = PairImges(simlset_dir, transform=transform)
-    siml_dataset = siml_dataset[:16]
     test_dataset = PairImges(testset_dir, transform=transform)
 
     print( 'size of train_dataset = ', len(train_dataset) )
