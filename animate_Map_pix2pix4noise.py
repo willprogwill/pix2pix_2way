@@ -181,6 +181,8 @@ def train():
         process_images(simlset_dir, processing_ratio, mu, sigma)
 
     simlset_dir = cp_simlset+'/'
+    simlset_dir = simlset_dir[:16]
+    print(simlset_dir)
 
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")

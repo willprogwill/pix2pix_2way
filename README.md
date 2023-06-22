@@ -11,3 +11,6 @@ __main__ 実行時には引数に　`processing_ratio`, `mu`, `sigma`をとる�
 `processing_ratio　=　0.1`  
 `mu = 0`  
 `sigma = 100`  
+
+## animate_Map_pix2pix4noise.py
+simulateに対するノイズは事前にノイズ用のデータを作成するべきかも
