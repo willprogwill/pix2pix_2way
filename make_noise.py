@@ -3,6 +3,7 @@ import shutil
 import random
 import numpy as np
 import cv2
+import sys
 
 def add_noise(img, mu=0, sigma=100):
     # 画素数xRGBのノイズを生成
@@ -50,7 +51,13 @@ if __name__ == "__main__":
     image_directory = 'half'
     processing_ratio = 0.1  # 10%の画像を処理する
     mu = 0
-    sigma = 150
+    sigma = 100
+
+    args = sys.argv
+    if len( args ) == 4:
+        processing_ratio = int(args[ 1 ] )
+        mu = int(args[ 2 ] )
+        sigma = int(args[ 3 ] )
 
     #noiseフォルダ作成
     cp_directory = image_directory+f'_nz{processing_ratio*100}%_sig'+str(sigma)
