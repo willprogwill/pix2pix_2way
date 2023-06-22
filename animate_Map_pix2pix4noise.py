@@ -169,7 +169,7 @@ def train():
     cp_simlset = simlset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
     if not os.path.exists( cp_simlset ):
         shutil.copytree(simlset_dir, cp_simlset)
-        print(f'Create {cp_directory} directory.')
+        print(f'Create {cp_simlset} directory.')
 
         # noise付加
         process_images(simlset_dir, processing_ratio)
