@@ -7,4 +7,6 @@ test/
 simulate/
 Map_frame_pix2pix_*/
 video/
+*/
 *.zip
+*.png

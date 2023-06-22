@@ -31,9 +31,9 @@ def labelshow( img, name, label ):
     img = img / 2 + 0.5
     npimg = img.detach().numpy()
     # print( plt.rcParams.keys() )
-    plt.figure( figsize = (12, 12) )
+    plt.figure( figsize = (12, 16) )
     plt.rcParams[ "text.color" ] = 'white'
-    plt.rcParams[ "font.size" ] = 20
+    plt.rcParams[ "font.size" ] = 24
     # plt.rcParams["font.family"]='Helvetica'
     # plt.rcParams["font.family"]='Impact'
     # plt.rcParams["font.family"]='Tahoma'
@@ -145,6 +145,7 @@ def train():
     simlset_dir = "./simulate"
     testset_dir = "./test"
     print(f"dataset_dir: {dataset_dir}")
+    print(f"simlset_dir: {simlset_dir}")
     print(f"testset_dir: {testset_dir}")
 
     train_dataset = PairImges(dataset_dir, transform=transform)
@@ -152,6 +153,7 @@ def train():
     test_dataset = PairImges(testset_dir, transform=transform)
 
     print( 'size of train_dataset = ', len(train_dataset) )
+    print( 'size of siml_dataset = ', len(siml_dataset) )
     print( 'size of test_dataset = ', len(test_dataset) )
 
     # frame Loader 用
