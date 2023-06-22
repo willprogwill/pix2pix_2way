@@ -23,7 +23,7 @@ def list_files(directory):
             files.append(item_path)
     return files
 
-def process_images(directory, processing_ratio):
+def process_images(directory, processing_ratio, mu, sigma):
     image_files = list_files(directory)
     num_images = len(image_files)
 
@@ -48,8 +48,8 @@ if __name__ == "__main__":
     # 使用例
     np.random.seed(0)
 
-    image_directory = 'half'
-    processing_ratio = 0.1  # 10%の画像を処理する
+    image_directory = 'simulate'
+    processing_ratio = 0.5  # 10%の画像を処理する
     mu = 0
     sigma = 100
 

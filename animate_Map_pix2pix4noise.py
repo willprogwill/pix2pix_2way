@@ -150,12 +150,13 @@ def train():
 
     #ノイズをtrainとsimlsetに付加
     np.random.seed(0)
-    processing_ratio = 0.2  # 10%の画像を処理する
+    processing_ratio = 0.2
     mu = 0
     sigma = 100
 
     # Make train noise
     cp_dataset = dataset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
+
     if not os.path.exists( cp_dataset ):
         shutil.copytree(dataset_dir, cp_dataset)
         print(f'Create {cp_dataset} directory.')
@@ -163,12 +164,13 @@ def train():
         dataset_dir = cp_dataset+'/'
 
         # noise付加
-        process_images(dataset_dir, processing_ratio)
+        process_images(dataset_dir, processing_ratio, mu, sigma)
 
     dataset_dir = cp_dataset+'/'
 
     # Make simlset noise
     cp_simlset = simlset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
+
     if not os.path.exists( cp_simlset ):
         shutil.copytree(simlset_dir, cp_simlset)
         print(f'Create {cp_simlset} directory.')
@@ -176,7 +178,7 @@ def train():
         simlset_dir = cp_simlset+'/'
 
         # noise付加
-        process_images(simlset_dir, processing_ratio)
+        process_images(simlset_dir, processing_ratio, mu, sigma)
 
     simlset_dir = cp_simlset+'/'
 
