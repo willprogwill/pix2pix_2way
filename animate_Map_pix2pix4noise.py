@@ -181,8 +181,6 @@ def train():
         process_images(simlset_dir, processing_ratio, mu, sigma)
 
     simlset_dir = cp_simlset+'/'
-    simlset_dir = simlset_dir[:16]
-    print(simlset_dir)
 
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")
@@ -190,6 +188,7 @@ def train():
 
     train_dataset = PairImges(dataset_dir, transform=transform)
     siml_dataset = PairImges(simlset_dir, transform=transform)
+    siml_dataset = siml_dataset[:16]
     test_dataset = PairImges(testset_dir, transform=transform)
 
     print( 'size of train_dataset = ', len(train_dataset) )
