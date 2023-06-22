@@ -54,6 +54,7 @@ def labelshow( img, name, label ):
     plt.imshow( np.transpose( npimg, (1, 2, 0) ) )
     plt.savefig( name, bbox_inches='tight',pad_inches=0 )
     # plt.show()
+    plt.clf()
 
 def train():
     # 時間計測開始
@@ -376,8 +377,8 @@ def train():
     plt.clf()
     x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
 
-    plt.plot(x, log_loss_G_sum, label='log_loss_G_sum')  # データ1をプロット
-    plt.plot(x, log_loss_D, label='log_loss_D')  # データ2をプロット
+    plt.plot(x, log_loss_G_sum, label='loss_G_sum')  # データ1をプロット
+    plt.plot(x, log_loss_D, label='loss_D')  # データ2をプロット
 
     plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
     plt.ylabel('Loss')  # Y軸ラベルの設定
