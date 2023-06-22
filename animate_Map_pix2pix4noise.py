@@ -334,15 +334,6 @@ def train():
     # filename_loss_G_sum = "Map_loss_G_sum_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_loss_G_sum )
     # torch.save( log_loss_G_sum, f"./"+log_file_name+f"/losses/"+filename_loss_G_sum )
-    x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
-
-    plt.plot(x, log_loss_G_sum)  # リストのデータをプロット
-
-    plt.xlabel('Epochs')  # X軸ラベルの設定
-    plt.ylabel('loss_G_sum')  # Y軸ラベルの設定
-    plt.title('log_loss_G_sum')  # グラフタイトルの設定
-
-    plt.savefig(log_save+f'/loss_G_sum_gragh.png')  # グラフを画像として保存
 
     # #loss_G_bceの保存
     # filename_loss_G_bce = "Map_loss_G_bce_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
@@ -361,15 +352,19 @@ def train():
 
     # if not os.path.exists("./"+log_file_name+"/models"):
     #        os.mkdir("./"+log_file_name+"/models")
-    x = list(range(len(log_loss_D)))  # X軸データはリストのインデックスとします
 
-    plt.plot(x, log_loss_D)  # リストのデータをプロット
+    plt.figure()
+    x = list(range(len(data1)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_G_sum, label='log_loss_G_sum')  # データ1をプロット
+    plt.plot(x, log_loss_D, label='log_loss_D')  # データ2をプロット
 
     plt.xlabel('Epochs')  # X軸ラベルの設定
-    plt.ylabel('loss_D')  # Y軸ラベルの設定
-    plt.title('log_loss_D')  # グラフタイトルの設定
+    plt.ylabel('Loss')  # Y軸ラベルの設定
+    plt.title('Log_Loss_Graph')  # グラフタイトルの設定
+    plt.legend()  # 凡例の表示
 
-    plt.savefig(log_save+f'/log_loss_D_gragh.png')  # グラフを画像として保存
+    plt.savefig(output_path)  # グラフを画像として保存
 
     #model_Gの保存
     # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
