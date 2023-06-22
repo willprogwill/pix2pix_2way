@@ -353,6 +353,7 @@ def train():
     # if not os.path.exists("./"+log_file_name+"/models"):
     #        os.mkdir("./"+log_file_name+"/models")
 
+    plt.clf()
     plt.figure()
     x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
 
