@@ -310,6 +310,16 @@ def train():
     # filename_loss_G_sum = "Map_loss_G_sum_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_loss_G_sum )
     # torch.save( log_loss_G_sum, f"./"+log_file_name+f"/losses/"+filename_loss_G_sum )
+    plt.clf()
+    x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_G_sum)  # データ1をプロット
+
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
+    plt.ylabel('Loss')  # Y軸ラベルの設定
+    plt.title('Log_Loss_Graph')  # グラフタイトルの設定
+
+    plt.savefig(log_save+'/Loss_Gragh_G.png')  # グラフを画像として保存
 
     # #loss_G_bceの保存
     # filename_loss_G_bce = "Map_loss_G_bce_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
@@ -328,6 +338,16 @@ def train():
 
     # if not os.path.exists("./"+log_file_name+"/models"):
     #        os.mkdir("./"+log_file_name+"/models")
+    plt.clf()
+    x = list(range(len(log_loss_D)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_D)  # データ2をプロット
+
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
+    plt.ylabel('Loss')  # Y軸ラベルの設定
+    plt.title('Log_Loss_Graph')  # グラフタイトルの設定
+
+    plt.savefig(log_save+'/Loss_Gragh_D.png')  # グラフを画像として保存
 
     #model_Gの保存
     # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
@@ -340,6 +360,19 @@ def train():
     # print( 'saving ', filename_model_D )
     # model_D = model.to('cpu')
     # torch.save( model_D.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_D )
+
+    plt.clf()
+    x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
+
+    plt.plot(x, log_loss_G_sum, label='loss_G_sum')  # データ1をプロット
+    plt.plot(x, log_loss_D, label='loss_D')  # データ2をプロット
+
+    plt.xlabel('Epochs * Iteration')  # X軸ラベルの設定
+    plt.ylabel('Loss')  # Y軸ラベルの設定
+    plt.title('Log_Loss_Graph')  # グラフタイトルの設定
+    plt.legend(['log_loss_G_sum', 'log_loss_D'])  # 凡例の表示
+
+    plt.savefig(log_save+'/Loss_Gragh.png')  # グラフを画像として保存
 
 if __name__ == "__main__":
     #ファイルの確認
