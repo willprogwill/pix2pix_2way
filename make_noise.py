@@ -49,9 +49,9 @@ if __name__ == "__main__":
     np.random.seed(0)
 
     image_directory = 'simulate'
-    processing_ratio = 0.5  # 10%の画像を処理する
+    processing_ratio = 1  # 100%の画像を処理する
     mu = 0
-    sigma = 100
+    sigma = [50, 100, 150, 200, 250, 300]
 
     args = sys.argv
     if len( args ) == 4:
@@ -60,14 +60,15 @@ if __name__ == "__main__":
         sigma = int(args[ 3 ])
 
     #noiseフォルダ作成
-    cp_directory = image_directory+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
-    if not os.path.exists( cp_directory ):
-        shutil.copytree(image_directory, cp_directory)
-        image_directory = cp_directory+'/'
+    for Sig_value in sigma:
+        cp_directory = image_directory+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(Sig_value)
+        print(cp_directory)
+        if not os.path.exists( cp_directory ):
+            shutil.copytree(image_directory, cp_directory)
 
-        process_images(image_directory, processing_ratio, mu, sigma)
+            process_images(cp_directory+'/', processing_ratio, mu, Sig_value)
 
-        print(f'Create {cp_directory} directory.')
+            print(f'Create {cp_directory} directory.')
 
-        # cp_dir = list_files(image_directory)
-        # print(len(cp_dir))
+            # cp_dir = list_files(image_directory)
+            # print(len(cp_dir))

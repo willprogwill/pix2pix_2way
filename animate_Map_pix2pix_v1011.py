@@ -18,15 +18,12 @@ import glob
 import os
 from os import listdir
 
-import shutil
-
 import time
 
 from UNetGenerator import UNetGenerator
 from Discriminator import MyDiscriminator, Discriminator
 from UNet_dataset import PairImges
 from make_video import makeVideo
-from make_noise import process_images
 
 def labelshow( img, name, label ):
     plt.clf()
@@ -54,9 +51,8 @@ def labelshow( img, name, label ):
     plt.imshow( np.transpose( npimg, (1, 2, 0) ) )
     plt.savefig( name, bbox_inches='tight',pad_inches=0 )
     # plt.show()
-    plt.clf()
 
-def train(nz_sigma):
+def train():
     # 時間計測開始
     time_sta = time.time()
 
@@ -145,50 +141,9 @@ def train(nz_sigma):
     transform = transforms.Compose( [transforms.ToTensor(),
                                      transforms.Normalize( (0.5,), (0.5,) ) ] )
     # dataset
-    dataset_dir = "./half"
+    dataset_dir = "./Aug_half_mu0_sig100"
     simlset_dir = "./simulate_nz"
     testset_dir = "./test"
-
-    if nz_sigma == 50:
-        dataset_dir = "./half_nz100%_mu0_sig50"
-        simlset_dir = "./simulate_nz"
-    else if nz_sigma == 100:
-        dataset_dir = "./half_nz100%_mu0_sig100"
-        simlset_dir = "./simulate_nz"
-    else if nz_sigma == 150:
-        dataset_dir = "./half_nz100%_mu0_sig150"
-        simlset_dir = "./simulate_nz"
-    else if nz_sigma == 200:
-        dataset_dir = "./half_nz100%_mu0_sig200"
-        simlset_dir = "./simulate_nz"
-    else if nz_sigma == 250:
-        dataset_dir = "./half_nz100%_mu0_sig250"
-        simlset_dir = "./simulate_nz"
-    else if nz_sigma == 300:
-        dataset_dir = "./half_nz100%_mu0_sig300"
-        simlset_dir = "./simulate_nz"
-
-    # Make train noise
-
-    # #ノイズをtrainとsimlsetに付加
-    # np.random.seed(0)
-    # processing_ratio = 0.2
-    # mu = 0
-    # sigma = 100
-
-    # cp_dataset = dataset_dir+f'_nz{int(processing_ratio*100)}%_mu{mu}_sig'+str(sigma)
-    #
-    # if not os.path.exists( cp_dataset ):
-    #     shutil.copytree(dataset_dir, cp_dataset)
-    #     print(f'Create {cp_dataset} directory.')
-    #
-    #     dataset_dir = cp_dataset+'/'
-    #
-    #     # noise付加
-    #     process_images(dataset_dir, processing_ratio, mu, sigma)
-    #
-    # dataset_dir = cp_dataset+'/'
-
     print(f"dataset_dir: {dataset_dir}")
     print(f"simlset_dir: {simlset_dir}")
     print(f"testset_dir: {testset_dir}")
@@ -375,6 +330,14 @@ def train(nz_sigma):
     # filename_loss_G_mae = "Map_loss_G_mae_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
     # print( 'saving ', filename_loss_G_mae )
     # torch.save( log_loss_G_mae, f"./"+log_file_name+f"/losses/"+filename_loss_G_mae )
+
+    #loss_Dの保存
+    # filename_loss_D = "Map_loss_D_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
+    # print( 'saving ', filename_loss_D )
+    # torch.save( log_loss_D, f"./"+log_file_name+f"/losses/"+filename_loss_D )
+
+    # if not os.path.exists("./"+log_file_name+"/models"):
+    #        os.mkdir("./"+log_file_name+"/models")
     plt.clf()
     x = list(range(len(log_loss_D)))  # X軸データはリストのインデックスとします
 
@@ -386,13 +349,17 @@ def train(nz_sigma):
 
     plt.savefig(log_save+'/Loss_Gragh_D.png')  # グラフを画像として保存
 
-    #loss_Dの保存
-    # filename_loss_D = "Map_loss_D_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
-    # print( 'saving ', filename_loss_D )
-    # torch.save( log_loss_D, f"./"+log_file_name+f"/losses/"+filename_loss_D )
+    #model_Gの保存
+    # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
+    # print( 'saving ', filename_model_G )
+    # model_G = model.to('cpu')
+    # torch.save( model_G.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_G )
 
-    # if not os.path.exists("./"+log_file_name+"/models"):
-    #        os.mkdir("./"+log_file_name+"/models")
+    #model_Dの保存
+    # filename_model_D = "Map_model_D_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
+    # print( 'saving ', filename_model_D )
+    # model_D = model.to('cpu')
+    # torch.save( model_D.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_D )
 
     plt.clf()
     x = list(range(len(log_loss_G_sum)))  # X軸データはリストのインデックスとします
@@ -406,18 +373,6 @@ def train(nz_sigma):
     plt.legend(['log_loss_G_sum', 'log_loss_D'])  # 凡例の表示
 
     plt.savefig(log_save+'/Loss_Gragh.png')  # グラフを画像として保存
-
-    #model_Gの保存
-    # filename_model_G = "Map_model_G_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
-    # print( 'saving ', filename_model_G )
-    # model_G = model.to('cpu')
-    # torch.save( model_G.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_G )
-
-    #model_Dの保存
-    # filename_model_D = "Map_model_D_pix2pix_" + str( nEpochs ).zfill( 5 ) + ".pth"
-    # print( 'saving ', filename_model_D )
-    # model_D = model.to('cpu')
-    # torch.save( model_D.state_dict(), f"./"+log_file_name+f"/models/"+filename_model_D )
 
 if __name__ == "__main__":
     #ファイルの確認
@@ -433,8 +388,5 @@ if __name__ == "__main__":
         print("Make directory ./video")
         os.mkdir( "./video" )
 
-    sig_list = [50, 100, 150, 200, 250, 300]
-
-    for sig in sig_list:
-        # training
-        train(sig)
+    # training
+    train()
